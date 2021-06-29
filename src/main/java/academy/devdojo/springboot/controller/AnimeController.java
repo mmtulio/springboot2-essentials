@@ -22,7 +22,7 @@ public class AnimeController {
     private final AnimeService animeService;
 
     @GetMapping
-    public List<Anime> list(){
+    public List<Anime> list() {
         log.info(dateUtil.formatLocalDateTimeToDatabaseStyle(LocalDateTime.now()));
         return animeService.listAll();
     }
