@@ -7,6 +7,9 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
+import java.util.List;
+import java.util.Optional;
+
 @DataJpaTest
 class AnimeRepositoryTest {
 
@@ -15,8 +18,7 @@ class AnimeRepositoryTest {
 
     @Test
     @DisplayName("Save cria o anime quando bem sucedido")
-    void save_PerssistAnime_WhenSuccessful(){
-
+    void save_PerssistsAnime_WhenSuccessful(){
         //arrange
         Anime animeToBeSaved = createAnime();
 
@@ -27,6 +29,67 @@ class AnimeRepositoryTest {
         Assertions.assertThat(animeSaved).isNotNull();
         Assertions.assertThat(animeSaved.getId()).isNotNull();
         Assertions.assertThat(animeSaved.getName()).isEqualTo(animeToBeSaved.getName());
+    }
+
+    @Test
+    @DisplayName("Save atualiza o anime quando bem sucedido")
+    void save_UpdatesAnime_WhenSuccessful(){
+        //arrange
+        Anime animeToBeSaved = createAnime();
+        Anime animeSaved = this.animeRepositoryTest.save(animeToBeSaved);
+
+        //act
+        animeSaved.setName("outro nome");
+        Anime animeUpdated = this.animeRepositoryTest.save(animeSaved);
+
+        //assert
+        Assertions.assertThat(animeUpdated).isNotNull();
+        Assertions.assertThat(animeUpdated.getId()).isNotNull();
+        Assertions.assertThat(animeUpdated.getName()).isEqualTo(animeSaved.getName());
+    }
+
+    @Test
+    @DisplayName("Delete remove o anime quando bem sucedido")
+    void save_RemovesAnime_WhenSuccessful(){
+        //arrange
+        Anime animeToBeSaved = createAnime();
+        Anime animeSaved = this.animeRepositoryTest.save(animeToBeSaved);
+
+        //act
+        animeSaved.setName("outro nome");
+        this.animeRepositoryTest.delete(animeSaved);
+        Optional<Anime> animeOptional = this.animeRepositoryTest.findById(animeSaved.getId());
+
+        //assert
+        Assertions.assertThat(animeOptional).isEmpty();
+    }
+
+    @Test
+    @DisplayName("Busca pelo nome retorna lista de animes quando bem sucedido")
+    void findByName_ReturnsListOfAnime_WhenSuccessfull() {
+        //arrange
+        Anime animeToBeSaved = createAnime();
+
+        //act
+        Anime animeSaved = this.animeRepositoryTest.save(animeToBeSaved);
+        String name = animeSaved.getName();
+        List<Anime> animes = this.animeRepositoryTest.findByName(name);
+
+        //assert
+        Assertions.assertThat(animes).isNotEmpty();
+        Assertions.assertThat(animes).contains(animeSaved);
+        Assertions.assertThat(animes).isInstanceOf(List.class);
+    }
+
+    @Test
+    @DisplayName("Busca pelo nome retorna lista vazia quando anime não é encontrado")
+    void findByName_ReturnsEmptyList_WhenAnimeIsNotFound() {
+        //arrange
+        //act
+        List<Anime> animes = this.animeRepositoryTest.findByName("nao existe");
+
+        //assert
+        Assertions.assertThat(animes).isEmpty();
     }
 
     private Anime createAnime(){
