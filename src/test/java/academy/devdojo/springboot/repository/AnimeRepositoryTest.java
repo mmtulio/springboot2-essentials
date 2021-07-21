@@ -1,6 +1,7 @@
 package academy.devdojo.springboot.repository;
 
 import academy.devdojo.springboot.domain.Anime;
+import academy.devdojo.springboot.util.AnimeCreator;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -10,6 +11,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import javax.validation.ConstraintViolationException;
 import java.util.List;
 import java.util.Optional;
+
 
 @DataJpaTest
 class AnimeRepositoryTest {
@@ -21,7 +23,7 @@ class AnimeRepositoryTest {
     @DisplayName("Save cria o anime quando bem sucedido")
     void save_PerssistsAnime_WhenSuccessful(){
         //arrange
-        Anime animeToBeSaved = createAnime();
+        Anime animeToBeSaved = AnimeCreator.createAnimeToBeSaved();
 
         //act
         Anime animeSaved = this.animeRepositoryTest.save(animeToBeSaved);
@@ -36,7 +38,7 @@ class AnimeRepositoryTest {
     @DisplayName("Save atualiza o anime quando bem sucedido")
     void save_UpdatesAnime_WhenSuccessful(){
         //arrange
-        Anime animeToBeSaved = createAnime();
+        Anime animeToBeSaved = AnimeCreator.createAnimeToBeSaved();
         Anime animeSaved = this.animeRepositoryTest.save(animeToBeSaved);
 
         //act
@@ -53,7 +55,7 @@ class AnimeRepositoryTest {
     @DisplayName("Delete remove o anime quando bem sucedido")
     void save_RemovesAnime_WhenSuccessful(){
         //arrange
-        Anime animeToBeSaved = createAnime();
+        Anime animeToBeSaved = AnimeCreator.createAnimeToBeSaved();
         Anime animeSaved = this.animeRepositoryTest.save(animeToBeSaved);
 
         //act
@@ -69,7 +71,7 @@ class AnimeRepositoryTest {
     @DisplayName("Busca pelo nome retorna lista de animes quando bem sucedido")
     void findByName_ReturnsListOfAnime_WhenSuccessfull() {
         //arrange
-        Anime animeToBeSaved = createAnime();
+        Anime animeToBeSaved = AnimeCreator.createAnimeToBeSaved();
 
         //act
         Anime animeSaved = this.animeRepositoryTest.save(animeToBeSaved);
@@ -114,10 +116,4 @@ class AnimeRepositoryTest {
 
     }
 
-    private Anime createAnime(){
-        return Anime
-                .builder()
-                .name("Anime Test")
-                .build();
-    }
 }
