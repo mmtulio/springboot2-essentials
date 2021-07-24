@@ -32,11 +32,10 @@ public class AnimeService {
         return animeRepository.findByName(name);
     }
 
-    public Anime findByIdOrThrowBadRequestException(long id){
+    public Anime findByIdOrThrowBadRequestException(long id) {
         return animeRepository
                 .findById(id)
-                .orElseThrow(()-> new BadRequestException("Anime not found."));
-
+                .orElseThrow(() -> new BadRequestException("Anime not Found"));
     }
 
     @Transactional
@@ -54,5 +53,4 @@ public class AnimeService {
         anime.setId(savedAnime.getId());
         animeRepository.save(anime);
     }
-
 }
