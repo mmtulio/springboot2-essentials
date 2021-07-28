@@ -17,3 +17,14 @@ logging:
     org:
       hibernate:
         SQL: DEBUG
+
+management:
+  endpoint:
+    web:
+      exposure:
+        include: "*"
+
+info:
+  app: Spring Boot 2 Essentials
+  website: https://www.linkedin.com/in/tuliomuller/
+  github: https://github.com/mmtulio/springboot2-essentials
