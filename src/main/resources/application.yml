@@ -19,10 +19,10 @@ logging:
         SQL: DEBUG
 
 management:
-  endpoint:
+  endpoints:
     web:
       exposure:
-        include: "*"
+        include: info, health, metrics, prometheus
 
 info:
   app: Spring Boot 2 Essentials
