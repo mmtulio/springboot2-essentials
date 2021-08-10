@@ -11,6 +11,8 @@ spring:
   jpa:
     hibernate:
       ddl-auto: update
+  application:
+    name: springboot2-essentials
 
 logging:
   level:
